@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Muhammad Malik Fajar El-Syarif</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-inter bg-navy-900 text-white overflow-x-hidden">
+
+  <!-- LOADING SCREEN -->
+  <div id="loader" class="fixed inset-0 z-[9999] bg-navy-900 flex flex-col items-center justify-center transition-all duration-600">
+    <div class="loader-ring w-[70px] h-[70px] rounded-full border-[3px] border-transparent border-t-blue-500 border-r-cyan-400 relative"></div>
+    <p class="mt-6 text-sm tracking-[4px] uppercase text-blue-200 anim-pulse-text">Initializing</p>
+    <div class="mt-5 w-[200px] h-[3px] bg-white/10 rounded-full overflow-hidden">
+      <div id="loaderBar" class="h-full w-0 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300"></div>
+    </div>
+    <p id="loaderPercent" class="mt-3 text-xs text-slate-500 tabular-nums">0%</p>
+  </div>
+
+  <!-- CURSOR GLOW -->
+  <div id="cursorGlow" class="fixed w-[300px] h-[300px] rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2" style="background:radial-gradient(circle,rgba(37,99,235,0.08) 0%,transparent 70%)"></div>
+
+  <!-- PARTICLES -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- NAVIGATION -->
+  <nav id="navbar" class="fixed top-0 w-full z-[100] px-6 py-4 transition-all duration-400">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="#hero" class="text-xl font-bold bg-gradient-to-br from-blue-300 to-cyan-400 bg-clip-text text-transparent">MF.</a>
+      <ul class="hidden lg:flex gap-8 list-none">
+        <li><a href="#about" class="text-slate-300 text-[13px] font-medium tracking-wide uppercase relative hover:text-white transition-colors after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-blue-500 after:to-cyan-400 after:rounded after:transition-all hover:after:w-full">About</a></li>
+        <li><a href="#skills" class="text-slate-300 text-[13px] font-medium tracking-wide uppercase relative hover:text-white transition-colors after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-blue-500 after:to-cyan-400 after:rounded after:transition-all hover:after:w-full">Skills</a></li>
+        <li><a href="#experience" class="text-slate-300 text-[13px] font-medium tracking-wide uppercase relative hover:text-white transition-colors after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-blue-500 after:to-cyan-400 after:rounded after:transition-all hover:after:w-full">Experience</a></li>
+        <li><a href="#projects" class="text-slate-300 text-[13px] font-medium tracking-wide uppercase relative hover:text-white transition-colors after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-blue-500 after:to-cyan-400 after:rounded after:transition-all hover:after:w-full">Projects</a></li>
+        <li><a href="#certificates" class="text-slate-300 text-[13px] font-medium tracking-wide uppercase relative hover:text-white transition-colors after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-blue-500 after:to-cyan-400 after:rounded after:transition-all hover:after:w-full">Certificates</a></li>
+        <li><a href="#contact" class="text-slate-300 text-[13px] font-medium tracking-wide uppercase relative hover:text-white transition-colors after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-blue-500 after:to-cyan-400 after:rounded after:transition-all hover:after:w-full">Contact</a></li>
+      </ul>
+      <button id="hamburger" type="button" aria-label="Toggle menu" aria-expanded="false" class="lg:hidden flex flex-col gap-[5px] cursor-pointer p-2 bg-transparent border-0">
+        <span class="w-6 h-[2px] bg-white rounded"></span>
+        <span class="w-6 h-[2px] bg-white rounded"></span>
+        <span class="w-6 h-[2px] bg-white rounded"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div id="mobileMenu" class="lg:hidden fixed inset-0 bg-navy-900/98 backdrop-blur-xl z-[150] flex-col items-center justify-center gap-8 opacity-0 invisible transition-all duration-400">
+    <a href="#about" onclick="closeMenu()" class="text-white text-2xl font-medium tracking-widest uppercase hover:text-cyan-400 transition-colors">About</a>
+    <a href="#skills" onclick="closeMenu()" class="text-white text-2xl font-medium tracking-widest uppercase hover:text-cyan-400 transition-colors">Skills</a>
+    <a href="#experience" onclick="closeMenu()" class="text-white text-2xl font-medium tracking-widest uppercase hover:text-cyan-400 transition-colors">Experience</a>
+    <a href="#projects" onclick="closeMenu()" class="text-white text-2xl font-medium tracking-widest uppercase hover:text-cyan-400 transition-colors">Projects</a>
+    <a href="#certificates" onclick="closeMenu()" class="text-white text-2xl font-medium tracking-widest uppercase hover:text-cyan-400 transition-colors">Certificates</a>
+    <a href="#contact" onclick="closeMenu()" class="text-white text-2xl font-medium tracking-widest uppercase hover:text-cyan-400 transition-colors">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero" class="min-h-screen flex items-center justify-center px-6 pt-28 pb-20 relative overflow-hidden">
+    <div class="absolute w-[600px] h-[600px] rounded-full top-[-100px] right-[-200px] anim-float-glow" style="background:radial-gradient(circle,rgba(37,99,235,0.15) 0%,transparent 70%)"></div>
+    <div class="absolute w-[400px] h-[400px] rounded-full bottom-[-50px] left-[-100px] anim-float-glow-reverse" style="background:radial-gradient(circle,rgba(6,182,212,0.1) 0%,transparent 70%)"></div>
+
+    <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+      <div class="lg:order-2 text-center lg:text-left order-1">
+        <p class="text-sm tracking-[3px] uppercase text-cyan-400 font-semibold mb-3 reveal">Assalamu'alaikum! 👋</p>
+        <h1 class="font-playfair text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] mb-2 reveal reveal-d1">
+          Saya <span class="bg-gradient-to-br from-blue-300 to-cyan-400 bg-clip-text text-transparent">Malik Fajar</span>
+        </h1>
+        <p class="text-lg text-slate-400 font-light mb-8 min-h-[27px] reveal reveal-d2" id="typedTarget"></p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start reveal reveal-d3">
+          <a href="#projects" class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl text-sm font-semibold shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(37,99,235,0.5)] transition-all"><i class="fas fa-rocket"></i> Lihat Project</a>
+          <a href="#contact" class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-transparent text-white border border-white/15 rounded-xl text-sm font-medium hover:bg-white/5 hover:border-white/30 hover:-translate-y-0.5 transition-all"><i class="fas fa-envelope"></i> Hubungi Saya</a>
+        </div>
+        <div class="flex gap-8 sm:gap-10 justify-center lg:justify-start mt-10 pt-8 border-t border-white/8 reveal reveal-d4">
+          <div><div class="text-2xl font-bold bg-gradient-to-br from-blue-200 to-cyan-400 bg-clip-text text-transparent">5+</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-1">Years Coding Exp</div></div>
+          <div><div class="text-2xl font-bold bg-gradient-to-br from-blue-200 to-cyan-400 bg-clip-text text-transparent">12+</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-1">Projects Done</div></div>
+          <div><div class="text-2xl font-bold bg-gradient-to-br from-blue-200 to-cyan-400 bg-clip-text text-transparent">95%</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-1">trusted</div></div>
+        </div>
+      </div>
+
+      <div class="lg:order-1 flex items-center justify-center relative order-2 reveal">
+        <div class="relative w-[260px] h-[310px] lg:w-[340px] lg:h-[400px]">
+          <div class="absolute inset-[-8px] rounded-[28px] border-2 border-transparent anim-rotate-border" style="background:linear-gradient(135deg,#2563eb,#22d3ee) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude"></div>
+          <img src="img/malik.png" alt="Malik Fajar" class="w-full h-full object-cover rounded-3xl border-2 border-blue-500/20 relative z-[2]">
+          <div class="absolute bottom-[-20px] left-[-30px] z-[3] bg-navy-800/90 backdrop-blur-xl border border-blue-500/20 rounded-2xl px-4 py-3 flex items-center gap-2.5 anim-float-card">
+            <div class="w-9 h-9 rounded-[10px] bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-sm"><i class="fas fa-shield-halved"></i></div>
+            <div><p class="text-[11px] text-slate-400">Cybersecurity</p><p class="text-sm font-semibold">Learner</p></div>
+          </div>
+          <div class="absolute top-5 right-[-40px] z-[3] bg-navy-800/90 backdrop-blur-xl border border-blue-500/20 rounded-2xl px-4 py-3 flex items-center gap-2.5 anim-float-card-d">
+            <div class="w-9 h-9 rounded-[10px] bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-sm"><i class="fas fa-cube"></i></div>
+            <div><p class="text-[11px] text-slate-400">3D Web</p><p class="text-sm font-semibold">Three.js</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / BIODATA -->
+  <section id="about" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center reveal">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold tracking-[2px] uppercase text-blue-200 mb-4"><i class="fas fa-user text-[10px] text-cyan-400"></i> About Me</div>
+        <h2 class="font-playfair text-3xl sm:text-4xl font-bold mb-3">Tentang Saya</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] p-8 backdrop-blur-sm hover:border-blue-500/30 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] transition-all reveal reveal-d1">
+          <h3 class="text-lg font-semibold mb-6 flex items-center gap-2.5"><i class="fas fa-id-card text-cyan-400 text-base"></i> Data Pribadi</h3>
+          <div class="flex items-start gap-3.5 py-3.5 border-b border-white/5">
+            <div class="w-9 h-9 rounded-[10px] bg-blue-500/10 flex items-center justify-center text-sm text-blue-200 shrink-0"><i class="fas fa-user"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">Nama</p><p class="text-sm font-medium text-slate-200">Muhammad Malik Fajar El-Syarif</p></div>
+          </div>
+          <div class="flex items-start gap-3.5 py-3.5 border-b border-white/5">
+            <div class="w-9 h-9 rounded-[10px] bg-blue-500/10 flex items-center justify-center text-sm text-blue-200 shrink-0"><i class="fas fa-school"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">Sekolah</p><p class="text-sm font-medium text-slate-200">SMK Informatika Fithrah Insani</p></div>
+          </div>
+          <div class="flex items-start gap-3.5 py-3.5 border-b border-white/5">
+            <div class="w-9 h-9 rounded-[10px] bg-blue-500/10 flex items-center justify-center text-sm text-blue-200 shrink-0"><i class="fas fa-graduation-cap"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">Kelas</p><p class="text-sm font-medium text-slate-200">Grade 11 (SMK)</p></div>
+          </div>
+          <div class="flex items-start gap-3.5 py-3.5">
+            <div class="w-9 h-9 rounded-[10px] bg-blue-500/10 flex items-center justify-center text-sm text-blue-200 shrink-0"><i class="fas fa-shield-halved"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">Fokus</p><p class="text-sm font-medium text-slate-200">Cybersecurity & Web Development</p></div>
+          </div>
+        </div>
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] p-8 backdrop-blur-sm hover:border-blue-500/30 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] transition-all reveal reveal-d2">
+          <h3 class="text-lg font-semibold mb-6 flex items-center gap-2.5"><i class="fas fa-code text-cyan-400 text-base"></i> Bio</h3>
+          <p class="text-sm text-slate-300 font-light leading-relaxed mb-4">Hey! I'm Malik.</p>
+          <p class="text-sm text-slate-400 font-light leading-relaxed mb-4">I'm a Grade 11 student at SMK Informatika Fithrah Insani who is passionate about cybersecurity and web security. I focus on learning how to build secure, reliable web experiences and understanding the fundamentals behind them.</p>
+          <p class="text-sm text-slate-400 font-light leading-relaxed mb-4">Right now I'm learning pentesting and application security. I also explore 3D web technology and modern UI to sharpen my skills and creativity.</p>
+          <p class="text-sm text-cyan-400 font-medium mt-6">Got a project in mind? Let's talk! 🚀</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center reveal">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold tracking-[2px] uppercase text-blue-200 mb-4"><i class="fas fa-bolt text-[10px] text-cyan-400"></i> Keahlian</div>
+        <h2 class="font-playfair text-3xl sm:text-4xl font-bold mb-3">Skills & Tools</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] p-8 backdrop-blur-sm reveal reveal-d1">
+          <h3 class="text-lg font-semibold mb-6 flex items-center gap-2.5"><i class="fas fa-chart-bar text-cyan-400 text-base"></i> Skill Level</h3>
+          <div class="mb-5">
+            <div class="flex justify-between items-center mb-2"><span class="text-sm font-medium flex items-center gap-2"><i class="fas fa-shield-halved text-blue-300 text-[13px]"></i> Cybersecurity</span><span class="text-[13px] font-semibold text-cyan-400">80%</span></div>
+            <div class="w-full h-1.5 bg-white/6 rounded-full overflow-hidden"><div class="skill-fill h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400" data-width="80"></div></div>
+          </div>
+          <div class="mb-5">
+            <div class="flex justify-between items-center mb-2"><span class="text-sm font-medium flex items-center gap-2"><i class="fas fa-bug text-blue-300 text-[13px]"></i> Pentesting</span><span class="text-[13px] font-semibold text-cyan-400">75%</span></div>
+            <div class="w-full h-1.5 bg-white/6 rounded-full overflow-hidden"><div class="skill-fill h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400" data-width="75"></div></div>
+          </div>
+          <div class="mb-5">
+            <div class="flex justify-between items-center mb-2"><span class="text-sm font-medium flex items-center gap-2"><i class="fab fa-react text-blue-300 text-[13px]"></i> Frontend Dev</span><span class="text-[13px] font-semibold text-cyan-400">90%</span></div>
+            <div class="w-full h-1.5 bg-white/6 rounded-full overflow-hidden"><div class="skill-fill h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400" data-width="90"></div></div>
+          </div>
+          <div class="mb-5">
+            <div class="flex justify-between items-center mb-2"><span class="text-sm font-medium flex items-center gap-2"><i class="fas fa-server text-blue-300 text-[13px]"></i> Backend Dev</span><span class="text-[13px] font-semibold text-cyan-400">78%</span></div>
+            <div class="w-full h-1.5 bg-white/6 rounded-full overflow-hidden"><div class="skill-fill h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400" data-width="78"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-2"><span class="text-sm font-medium flex items-center gap-2"><i class="fas fa-cube text-blue-300 text-[13px]"></i> 3D Web (Three.js)</span><span class="text-[13px] font-semibold text-cyan-400">72%</span></div>
+            <div class="w-full h-1.5 bg-white/6 rounded-full overflow-hidden"><div class="skill-fill h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400" data-width="72"></div></div>
+          </div>
+        </div>
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] p-8 backdrop-blur-sm reveal reveal-d2">
+          <h3 class="text-lg font-semibold mb-6 flex items-center gap-2.5"><i class="fas fa-tools text-cyan-400 text-base"></i> Tech Stack</h3>
+          <p class="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3">Frontend & Web</p>
+          <div class="flex flex-wrap gap-2 mb-5">
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fab fa-react mr-1 text-cyan-400"></i>React</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fas fa-code mr-1 text-cyan-400"></i>Next.js</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">TypeScript</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fab fa-js mr-1 text-cyan-400"></i>JavaScript</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">HTML5</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">CSS3</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fas fa-wind mr-1 text-cyan-400"></i>Tailwind</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">Sass</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fas fa-cube mr-1 text-cyan-400"></i>Three.js</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">GSAP</span>
+          </div>
+          <p class="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3">Backend & Database</p>
+          <div class="flex flex-wrap gap-2 mb-5">
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fab fa-node-js mr-1 text-cyan-400"></i>Node.js</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">Express</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">PostgreSQL</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">MongoDB</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">Redis</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">GraphQL</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">REST APIs</span>
+          </div>
+          <p class="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3">Tools & Platform</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fab fa-git-alt mr-1 text-cyan-400"></i>Git</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fab fa-docker mr-1 text-cyan-400"></i>Docker</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fab fa-aws mr-1 text-cyan-400"></i>AWS</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100">Vercel</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fab fa-figma mr-1 text-cyan-400"></i>Figma</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fas fa-code mr-1 text-cyan-400"></i>VS Code</span>
+            <span class="px-3 py-1.5 rounded-full text-[11px] font-medium border border-blue-500/20 bg-blue-500/8 text-blue-100"><i class="fab fa-linux mr-1 text-cyan-400"></i>Linux</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center reveal">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold tracking-[2px] uppercase text-blue-200 mb-4"><i class="fas fa-briefcase text-[10px] text-cyan-400"></i> Pengalaman</div>
+        <h2 class="font-playfair text-3xl sm:text-4xl font-bold mb-3">Experience</h2>
+      </div>
+      <div class="mt-12 pl-10 relative">
+        <div class="absolute left-[14px] top-0 bottom-0 w-[2px] timeline-line"></div>
+        <div class="mb-9 relative reveal">
+          <div class="absolute left-[-33px] top-1.5 w-3 h-3 rounded-full bg-blue-500 border-2 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]"></div>
+          <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl p-6 hover:border-blue-500/30 hover:translate-x-2 transition-all">
+            <p class="text-xs font-semibold text-cyan-400 tracking-wider mb-1.5">2026 - Full Stack (Personal Project)</p>
+            <h4 class="text-base font-semibold mb-1">SkillMatch SMK / KerjaIn From Dicoding</h4>
+            <p class="text-[13px] text-slate-400 font-light leading-relaxed mb-3">Building full-stack platform with React (Vite) + TailwindCSS and Laravel 12. Implemented AI roadmap generator and Laravel Sanctum authentication. Focus on modern and usable UI/UX.</p>
+            <div class="flex gap-1.5"><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">React</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Laravel</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">AI</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">TailwindCSS</span></div>
+          </div>
+        </div>
+        <div class="mb-9 relative reveal reveal-d1">
+          <div class="absolute left-[-33px] top-1.5 w-3 h-3 rounded-full bg-blue-500 border-2 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]"></div>
+          <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl p-6 hover:border-blue-500/30 hover:translate-x-2 transition-all">
+            <p class="text-xs font-semibold text-cyan-400 tracking-wider mb-1.5">2025 - Hackathon Participant</p>
+            <h4 class="text-base font-semibold mb-1">BPJS Hackathon & Web KulinaAI Powered with AI</h4>
+            <p class="text-[13px] text-slate-400 font-light leading-relaxed mb-3">Collaborated in a team to create prototypes within limited time. Contributed to frontend development and API integration. Focused on problem solving and presenting solutions to judges.</p>
+            <div class="flex gap-1.5"><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">React</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">API</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Teamwork</span></div>
+          </div>
+        </div>
+        <div class="mb-9 relative reveal reveal-d2">
+          <div class="absolute left-[-33px] top-1.5 w-3 h-3 rounded-full bg-blue-500 border-2 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]"></div>
+          <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl p-6 hover:border-blue-500/30 hover:translate-x-2 transition-all">
+            <p class="text-xs font-semibold text-cyan-400 tracking-wider mb-1.5">2024 — 2025 - Frontend Student (Self Project)</p>
+            <h4 class="text-base font-semibold mb-1">Various Web Portfolio & UI Projects</h4>
+            <p class="text-[13px] text-slate-400 font-light leading-relaxed mb-3">Built responsive websites using HTML, CSS, and JavaScript. Practiced modern UI trends like glassmorphism, dark theme, and 3D elements. Sharpened UX through layout and interaction design.</p>
+            <div class="flex gap-1.5"><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">HTML</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">CSS</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">JavaScript</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">3D</span></div>
+          </div>
+        </div>
+        <div class="relative reveal reveal-d3">
+          <div class="absolute left-[-33px] top-1.5 w-3 h-3 rounded-full bg-blue-500 border-2 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]"></div>
+          <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl p-6 hover:border-blue-500/30 hover:translate-x-2 transition-all">
+            <p class="text-xs font-semibold text-cyan-400 tracking-wider mb-1.5">2024 - Learning Phase — Web Development</p>
+            <h4 class="text-base font-semibold mb-1">Self Learning</h4>
+            <p class="text-[13px] text-slate-400 font-light leading-relaxed mb-3">Learned HTML, CSS, JavaScript basics. Started exploring React and component-based architecture. Created mini projects and UI clones to strengthen fundamentals.</p>
+            <div class="flex gap-1.5"><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">HTML</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">CSS</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">JavaScript</span><span class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">React</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center reveal">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold tracking-[2px] uppercase text-blue-200 mb-4"><i class="fas fa-folder-open text-[10px] text-cyan-400"></i> Karya</div>
+        <h2 class="font-playfair text-3xl sm:text-4xl font-bold mb-3">Projects</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+        <!-- Project 1 -->
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] overflow-hidden hover:border-blue-500/35 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all cursor-pointer group reveal reveal-d1">
+          <div class="relative h-[180px] overflow-hidden">
+            <img src="img/project-api.jpg" alt="API Downloader" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-transparent to-transparent"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-blue-500/20 backdrop-blur-md border border-blue-500/30 text-blue-100">Backend</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold mb-2">API Downloader</h3>
+            <p class="text-sm text-slate-400 font-light leading-relaxed mb-5">API service for downloading content with database management and neat endpoints.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-1.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Node.js</span><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Express</span></div>
+              <div class="flex gap-3"><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-code mr-1"></i>Code</a><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-external-link-alt mr-1"></i>Live</a></div>
+            </div>
+          </div>
+        </div>
+        <!-- Project 2 -->
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] overflow-hidden hover:border-blue-500/35 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all cursor-pointer group reveal reveal-d2">
+          <div class="relative h-[180px] overflow-hidden">
+            <img src="img/project-jkn.jpg" alt="JKN Mobile AI" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-transparent to-transparent"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-blue-500/20 backdrop-blur-md border border-blue-500/30 text-blue-100">AI</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold mb-2">JKN Mobile & Desktop Powered AI</h3>
+            <p class="text-sm text-slate-400 font-light leading-relaxed mb-5">Application combining modern frontend and AI features to assist JKN users.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-1.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">React</span><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Electron</span></div>
+              <div class="flex gap-3"><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-code mr-1"></i>Code</a><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-external-link-alt mr-1"></i>Live</a></div>
+            </div>
+          </div>
+        </div>
+        <!-- Project 3 -->
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] overflow-hidden hover:border-blue-500/35 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all cursor-pointer group reveal reveal-d3">
+          <div class="relative h-[180px] overflow-hidden">
+            <img src="img/project-court.jpg" alt="Courtline Website" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-transparent to-transparent"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-blue-500/20 backdrop-blur-md border border-blue-500/30 text-blue-100">Web</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold mb-2">Courtline Website</h3>
+            <p class="text-sm text-slate-400 font-light leading-relaxed mb-5">Information and services website focusing on clean design and fast performance.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-1.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Next.js</span><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Tailwind</span></div>
+              <div class="flex gap-3"><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-code mr-1"></i>Code</a><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-external-link-alt mr-1"></i>Live</a></div>
+            </div>
+          </div>
+        </div>
+        <!-- Project 4 -->
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] overflow-hidden hover:border-blue-500/35 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all cursor-pointer group reveal">
+          <div class="relative h-[180px] overflow-hidden">
+            <img src="img/project-attendance.jpg" alt="Attendance System" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-transparent to-transparent"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-blue-500/20 backdrop-blur-md border border-blue-500/30 text-blue-100">Fullstack</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold mb-2">Teacher & Student Attendance</h3>
+            <p class="text-sm text-slate-400 font-light leading-relaxed mb-5">Web-based attendance recording system for teachers and students in school environment.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-1.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Laravel</span><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">MySQL</span></div>
+              <div class="flex gap-3"><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-code mr-1"></i>Code</a><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-external-link-alt mr-1"></i>Live</a></div>
+            </div>
+          </div>
+        </div>
+        <!-- Project 5 -->
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] overflow-hidden hover:border-blue-500/35 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all cursor-pointer group reveal reveal-d1">
+          <div class="relative h-[180px] overflow-hidden">
+            <img src="img/project-media.jpg" alt="Media 2 Link" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-transparent to-transparent"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-blue-500/20 backdrop-blur-md border border-blue-500/30 text-blue-100">Frontend</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold mb-2">Media 2 Link</h3>
+            <p class="text-sm text-slate-400 font-light leading-relaxed mb-5">Simple tool to manage and share multiple media links in one page.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-1.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">React</span><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Vite</span></div>
+              <div class="flex gap-3"><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-code mr-1"></i>Code</a><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-external-link-alt mr-1"></i>Live</a></div>
+            </div>
+          </div>
+        </div>
+        <!-- Project 6 -->
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] overflow-hidden hover:border-blue-500/35 hover:-translate-y-1.5 hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all cursor-pointer group reveal reveal-d2">
+          <div class="relative h-[180px] overflow-hidden">
+            <img src="img/project-chat.jpg" alt="Chat with Social Media" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-transparent to-transparent"></div>
+            <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-blue-500/20 backdrop-blur-md border border-blue-500/30 text-blue-100">Automation</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-lg font-semibold mb-2">Chat with Social Media</h3>
+            <p class="text-sm text-slate-400 font-light leading-relaxed mb-5">Experiment integrating chat into social media with focus on automation and workflow.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-1.5"><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Node.js</span><span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide bg-blue-500/10 text-blue-200">Webhooks</span></div>
+              <div class="flex gap-3"><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-code mr-1"></i>Code</a><a href="#" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors"><i class="fas fa-external-link-alt mr-1"></i>Live</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES -->
+  <section id="certificates" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center reveal">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold tracking-[2px] uppercase text-blue-200 mb-4"><i class="fas fa-award text-[10px] text-cyan-400"></i> Pencapaian</div>
+        <h2 class="font-playfair text-3xl sm:text-4xl font-bold mb-3">Certificates</h2>
+        <p class="text-base text-slate-400 font-light max-w-lg mx-auto">A collection of certificates earned while learning and creating.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+        <!-- Cert 1 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d1">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat1-1.png" alt="Belajar Back-end Pemula dengan JavaScript - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat1-2.png" alt="Belajar Back-end Pemula dengan JavaScript - halaman 2" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Belajar Back-end Pemula dengan JavaScript</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Dicoding</p>
+          </div>
+        </div>
+        <!-- Cert 2 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d2">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat2-1.png" alt="Belajar Membuat Aplikasi Web dengan React - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat2-2.png" alt="Belajar Membuat Aplikasi Web dengan React - halaman 2" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Belajar Membuat Aplikasi Web dengan React</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Dicoding</p>
+          </div>
+        </div>
+        <!-- Cert 3 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d3">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat3-1.png" alt="Belajar Membuat Front-End Web untuk Pemula - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat3-2.png" alt="Belajar Membuat Front-End Web untuk Pemula - halaman 2" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Belajar Membuat Front-End Web untuk Pemula</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Dicoding</p>
+          </div>
+        </div>
+        <!-- Cert 4 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat4-1.png" alt="Belajar Dasar Pemrograman JavaScript - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat4-2.png" alt="Belajar Dasar Pemrograman JavaScript - halaman 2" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat4-3.png" alt="Belajar Dasar Pemrograman JavaScript - halaman 3" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Belajar Dasar Pemrograman JavaScript</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Dicoding</p>
+          </div>
+        </div>
+        <!-- Cert 5 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d1">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat5-1.png" alt="Belajar Dasar Pemrograman Web - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat5-2.png" alt="Belajar Dasar Pemrograman Web - halaman 2" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat5-3.png" alt="Belajar Dasar Pemrograman Web - halaman 3" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Belajar Dasar Pemrograman Web</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Dicoding</p>
+          </div>
+        </div>
+        <!-- Cert 6 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d2">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat6-1.png" alt="Belajar Dasar Cloud dan Gen AI di AWS - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat6-2.png" alt="Belajar Dasar Cloud dan Gen AI di AWS - halaman 2" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat6-3.png" alt="Belajar Dasar Cloud dan Gen AI di AWS - halaman 3" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Belajar Dasar Cloud dan Gen AI di AWS</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Dicoding</p>
+          </div>
+        </div>
+        <!-- Cert 7 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d3">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat7-1.png" alt="Belajar Structured Concurrency dengan GO - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat7-2.png" alt="Belajar Structured Concurrency dengan GO - halaman 2" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Belajar Structured Concurrency dengan GO</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Dicoding</p>
+          </div>
+        </div>
+        <!-- Cert 8 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat8-1.png" alt="Building Cloud Solutions with Microsoft Azure - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat8-2.png" alt="Building Cloud Solutions with Microsoft Azure - halaman 2" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat8-3.png" alt="Building Cloud Solutions with Microsoft Azure - halaman 3" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat8-4.png" alt="Building Cloud Solutions with Microsoft Azure - halaman 4" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span><span class="cert-dot"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Building Cloud Solutions with Microsoft Azure</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Microsoft Azure</p>
+          </div>
+        </div>
+        <!-- Cert 9 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d1">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat9-1.png" alt="Coding Camp 2026 Certificate - halaman 1" loading="lazy" class="cert-slide">
+              <img src="img/sertifikat9-2.png" alt="Coding Camp 2026 Certificate - halaman 2" loading="lazy" class="cert-slide">
+            </div>
+            <button type="button" class="cert-nav cert-prev" aria-label="Halaman sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav cert-next" aria-label="Halaman berikutnya"><i class="fas fa-chevron-right"></i></button>
+            <div class="cert-dots"><span class="cert-dot active"></span><span class="cert-dot"></span></div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Coding Camp 2026 Certificate</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Coding Camp</p>
+          </div>
+        </div>
+        <!-- Cert 10 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d2">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat10-1.png" alt="Coding Camp 2026 Graduation Letter" loading="lazy" class="cert-slide">
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Coding Camp 2026 Graduation Letter</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> Coding Camp</p>
+          </div>
+        </div>
+        <!-- Cert 11 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal reveal-d3">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat9.png" alt="Sertifikat Kehadiran - Hackathon IMPHNEN x KOLOSAL AI" loading="lazy" class="cert-slide">
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Sertifikat Kehadiran — Hackathon IMPHNEN x KOLOSAL AI</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> IMPHNEN</p>
+          </div>
+        </div>
+        <!-- Cert 12 -->
+        <div class="cert-card bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl overflow-hidden hover:border-blue-500/30 hover:-translate-y-1 transition-all group reveal">
+          <div class="cert-slider relative h-48 overflow-hidden bg-navy-800">
+            <div class="cert-slides flex h-full">
+              <img src="img/sertifikat10.png" alt="Sertifikat Partisipasi - Hackathon Imphnen x Kolosal.ai" loading="lazy" class="cert-slide">
+            </div>
+          </div>
+          <div class="p-5">
+            <h4 class="text-sm font-semibold mb-1.5">Sertifikat Partisipasi — Hackathon Imphnen x Kolosal.ai</h4>
+            <p class="text-xs text-slate-400 mb-1"><i class="fas fa-building mr-1"></i> IMPHNEN x Kolosal.ai</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATE LIGHTBOX -->
+  <div id="certLightbox" class="cert-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Tampilan sertifikat">
+    <button type="button" id="certLightboxClose" class="cert-lightbox-close" aria-label="Tutup"><i class="fas fa-times"></i></button>
+    <img id="certLightboxImg" src="" alt="" class="cert-lightbox-img">
+    <p class="cert-lightbox-hint">Tekan Spasi untuk menutup</p>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center reveal">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-semibold tracking-[2px] uppercase text-blue-200 mb-4"><i class="fas fa-paper-plane text-[10px] text-cyan-400"></i> Kontak</div>
+        <h2 class="font-playfair text-3xl sm:text-4xl font-bold mb-3">Let's Work Together</h2>
+        <p class="text-base text-slate-400 font-light max-w-lg mx-auto">Have a project in mind? I'd love to hear about it. Drop me a message and let's create something amazing.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+        <div class="flex flex-col gap-6">
+          <a href="https://malikfajar.me" target="_blank" class="flex items-center gap-4 p-5 bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl hover:border-blue-500/35 hover:translate-x-2 transition-all text-white no-underline reveal reveal-d1">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-lg shrink-0"><i class="fas fa-globe"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">Website</p><p class="text-sm font-medium">malikfajar.me</p></div>
+          </a>
+          <a href="https://github.com/Malikkun09" target="_blank" class="flex items-center gap-4 p-5 bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl hover:border-blue-500/35 hover:translate-x-2 transition-all text-white no-underline reveal reveal-d2">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-lg shrink-0"><i class="fab fa-github"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">GitHub</p><p class="text-sm font-medium">Malikkun09</p></div>
+          </a>
+          <a href="https://github.com/MalikSMK09" target="_blank" class="flex items-center gap-4 p-5 bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl hover:border-blue-500/35 hover:translate-x-2 transition-all text-white no-underline reveal reveal-d2">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-lg shrink-0"><i class="fab fa-github"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">GitHub</p><p class="text-sm font-medium">MalikSMK09</p></div>
+          </a>
+          <a href="https://www.linkedin.com/in/muhammad-malik-fajar-el-syarif-05773a392/" target="_blank" class="flex items-center gap-4 p-5 bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl hover:border-blue-500/35 hover:translate-x-2 transition-all text-white no-underline reveal reveal-d3">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg shrink-0" style="background:linear-gradient(135deg,#0077b5,#005885)"><i class="fab fa-linkedin-in"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">LinkedIn</p><p class="text-sm font-medium">Muhammad Malik Fajar El-Syarif</p></div>
+          </a>
+          <a href="mailto:malikacconlyone@email.com" class="flex items-center gap-4 p-5 bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-2xl hover:border-blue-500/35 hover:translate-x-2 transition-all text-white no-underline reveal reveal-d4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-lg shrink-0"><i class="fas fa-envelope"></i></div>
+            <div><p class="text-[11px] uppercase tracking-wider text-slate-500 mb-0.5">Email</p><p class="text-sm font-medium">malikacconlyone@email.com</p></div>
+          </a>
+        </div>
+        <div class="bg-gradient-to-br from-navy-800/80 to-navy-900/90 border border-blue-500/12 rounded-[20px] p-8 reveal">
+          <form id="contactForm">
+            <div class="mb-5">
+              <label for="name" class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-2">Name</label>
+              <input type="text" id="name" class="w-full px-4 py-3 bg-white/4 border border-white/10 rounded-[10px] text-white text-sm focus:border-blue-500 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.15)] focus:outline-none transition-all placeholder:text-slate-600" placeholder="Your name" required>
+            </div>
+            <div class="mb-5">
+              <label for="message" class="block text-xs font-semibold tracking-wider uppercase text-slate-400 mb-2">Message</label>
+              <textarea id="message" rows="5" class="w-full px-4 py-3 bg-white/4 border border-white/10 rounded-[10px] text-white text-sm focus:border-blue-500 focus:shadow-[0_0_0_3px_rgba(37,99,235,0.15)] focus:outline-none transition-all resize-vertical placeholder:text-slate-600" placeholder="Tell me about your project..." required></textarea>
+            </div>
+            <button type="submit" class="w-full py-3.5 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:shadow-[0_8px_25px_rgba(37,99,235,0.4)] hover:-translate-y-0.5 transition-all border-none cursor-pointer font-inter"><i class="fas fa-paper-plane"></i> Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-10 px-6 border-t border-white/6 text-center relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-center gap-4 mb-5">
+        <a href="https://github.com/Malikkun09" target="_blank" class="w-10 h-10 rounded-[10px] border border-white/10 flex items-center justify-center text-slate-400 hover:bg-blue-500/15 hover:border-blue-500/30 hover:text-white hover:-translate-y-0.5 transition-all text-base no-underline"><i class="fab fa-github"></i></a>
+        <a href="https://github.com/MalikSMK09" target="_blank" class="w-10 h-10 rounded-[10px] border border-white/10 flex items-center justify-center text-slate-400 hover:bg-blue-500/15 hover:border-blue-500/30 hover:text-white hover:-translate-y-0.5 transition-all text-base no-underline"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/muhammad-malik-fajar-el-syarif-05773a392/" target="_blank" class="w-10 h-10 rounded-[10px] border border-white/10 flex items-center justify-center text-slate-400 hover:bg-blue-500/15 hover:border-blue-500/30 hover:text-white hover:-translate-y-0.5 transition-all text-base no-underline"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://malikfajar.me" target="_blank" class="w-10 h-10 rounded-[10px] border border-white/10 flex items-center justify-center text-slate-400 hover:bg-blue-500/15 hover:border-blue-500/30 hover:text-white hover:-translate-y-0.5 transition-all text-base no-underline"><i class="fas fa-globe"></i></a>
+      </div>
+      <p class="text-[13px] text-slate-500">© 2026 <span class="bg-gradient-to-br from-blue-300 to-cyan-400 bg-clip-text text-transparent font-semibold">Malik</span>. Built With HTML, CSS, JavaScript, and Tailwind CSS</p>
+    </div>
+  </footer>
+
+  <!-- SCROLL TOP -->
+  <button id="scrollTopBtn" class="fixed bottom-8 right-8 w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 text-white border-none text-base cursor-pointer z-[99] flex items-center justify-center opacity-0 invisible translate-y-2.5 shadow-[0_4px_15px_rgba(37,99,235,0.3)] hover:shadow-[0_8px_25px_rgba(37,99,235,0.5)] hover:-translate-y-0.5 transition-all" title="Ke atas"><i class="fas fa-chevron-up"></i></button>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-8 right-8 px-6 py-4 bg-navy-800/95 backdrop-blur-xl border border-blue-500/30 rounded-xl text-white text-sm font-medium flex items-center gap-2.5 z-[10000] translate-y-24 opacity-0 transition-all duration-400">
+    <i class="fas fa-check-circle text-cyan-400 text-lg"></i>
+    <span id="toastMsg">Message sent!</span>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
