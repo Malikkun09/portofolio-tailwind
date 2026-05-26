@@ -47,3 +47,6 @@
 #navbar.menu-open{z-index:160}
 #mobileMenu{display:none}
 #mobileMenu.open{display:flex;opacity:1!important;visibility:visible!important}
+#contactForm input,#contactForm textarea{color:#f1f5f9;background-color:rgba(15,31,61,.85);color-scheme:dark;caret-color:#22d3ee}
+#contactForm input::placeholder,#contactForm textarea::placeholder{color:#64748b;opacity:1}
+#contactForm input:-webkit-autofill,#contactForm input:-webkit-autofill:hover,#contactForm input:-webkit-autofill:focus,#contactForm textarea:-webkit-autofill,#contactForm textarea:-webkit-autofill:hover,#contactForm textarea:-webkit-autofill:focus{-webkit-text-fill-color:#f1f5f9;-webkit-box-shadow:0 0 0 1000px #0f1f3d inset;box-shadow:0 0 0 1000px #0f1f3d inset;caret-color:#22d3ee}
