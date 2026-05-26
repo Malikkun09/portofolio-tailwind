@@ -82,7 +82,13 @@
       clbImg.src='';
     }
     document.querySelectorAll('.cert-slide').forEach(img=>{
-      img.addEventListener('click',()=>openCertLightbox(img.src,img.alt));
+      img.addEventListener('click',e=>{e.stopPropagation();openCertLightbox(img.src,img.alt)});
+    });
+    document.querySelectorAll('.project-thumb').forEach(thumb=>{
+      thumb.addEventListener('click',()=>{
+        const img=thumb.querySelector('.project-slide');
+        if(img)openCertLightbox(img.src,img.alt);
+      });
     });
     clbClose.addEventListener('click',closeCertLightbox);
     clb.addEventListener('click',e=>{if(e.target===clb)closeCertLightbox()});
